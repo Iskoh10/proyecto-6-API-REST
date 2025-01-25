@@ -29,8 +29,10 @@ const postPlant = async (req, res, next) => {
 const updatePlant = async (req, res, next) => {
   try {
     const { id } = req.params;
+    const previousPlant = await Plant.findById(id);
     const newPlant = new Plant(req.body);
     newPlant._id = id;
+    newPlant.ecology = [...previousPlant.ecology];
     const plantUpdated = await Plant.findByIdAndUpdate(id, newPlant, {
       new: true
     });

@@ -24,8 +24,11 @@ const getEcologies = async (req, res, next) => {
 const updateEcology = async (req, res, next) => {
   try {
     const { id } = req.params;
+    const previousEcology = await Ecology.findById(id);
     const newEcology = new Ecology(req.body);
     newEcology._id = id;
+    newEcology.plantId = [...previousEcology.plantId];
+    newEcology.pollinators = [...previousEcology.pollinators];
 
     const ecologyUpdated = await Ecology.findByIdAndUpdate(id, newEcology, {
       new: true

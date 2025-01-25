@@ -2,12 +2,13 @@ const mongoose = require('mongoose');
 
 const pollinatorSchema = new mongoose.Schema(
   {
-    species: { type: String, required: true },
+    species: { type: String, required: true, unique: true },
     commonName: { type: String },
     category: {
       type: String,
       enum: ['insecto', 'ave', 'mamífero', 'reptil', 'otro'],
-      required: true
+      required: true,
+      unique: true
     },
     imgUrl: { type: String, required: true }
   },

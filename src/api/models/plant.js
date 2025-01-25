@@ -5,15 +5,17 @@ const plantSchema = new mongoose.Schema(
     kingdom: { type: String, required: true },
     phylum: { type: String, required: true },
     family: { type: String, required: true },
-    species: { type: String, required: true },
+    species: { type: String, required: true, unique: true },
     commonName: { type: String },
     characteristics: [{ type: String }],
     imgUrl: { type: String, required: true },
-    ecology: {
-      type: mongoose.Types.ObjectId,
-      required: false,
-      ref: 'ecologies'
-    }
+    ecology: [
+      {
+        type: mongoose.Types.ObjectId,
+        required: false,
+        ref: 'ecologies'
+      }
+    ]
   },
   {
     timestamps: true,
