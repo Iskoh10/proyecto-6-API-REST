@@ -19,6 +19,15 @@ const getPlants = async (req, res, next) => {
 const postPlant = async (req, res, next) => {
   try {
     const newPlant = new Plant(req.body);
+
+    const plantDuplicated = await Plant.findOne({
+      species: req.body.species
+    });
+
+    if (plantDuplicated) {
+      return res.status(400).json('Esta planta ya existe');
+    }
+
     const plantSaved = await newPlant.save();
     return res.status(201).json(plantSaved);
   } catch (error) {

@@ -2,7 +2,18 @@ const Ecology = require('../models/ecology');
 
 const postEcology = async (req, res, next) => {
   try {
+    const { plantId, pollinators } = req.body;
     const newEcology = new Ecology(req.body);
+
+    const relationDuplicated = await Ecology.findOne({
+      plantId: plantId,
+      pollinators: { $in: pollinators }
+    });
+
+    if (relationDuplicated) {
+      return res.status(400).json('Esta relación ya existe');
+    }
+
     const ecologySaved = await newEcology.save();
     return res.status(201).json(ecologySaved);
   } catch (error) {

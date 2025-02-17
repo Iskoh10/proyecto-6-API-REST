@@ -3,6 +3,15 @@ const Pollinator = require('../models/pollinator');
 const postPollinators = async (req, res, next) => {
   try {
     const newpollinator = new Pollinator(req.body);
+
+    const pollinatorDuplicated = await Pollinator.findOne({
+      species: req.body.species
+    });
+
+    if (pollinatorDuplicated) {
+      return res.status(400).json('Este polinizador ya existe');
+    }
+
     const pollinatorSaved = await newpollinator.save();
     return res.status(201).json(pollinatorSaved);
   } catch (error) {
